@@ -3,7 +3,11 @@ const {createStore}=require("redux");
 
 // define state
 
-const initialState = {count: 0};
+const initialState = {
+    user:['azhar'],
+    count: 1
+};
+
 const initialState2= {
     user: [
         {name: "Azharul Islam"},
@@ -25,9 +29,17 @@ const descrementCounter=()=>{
     }
 }
 
-const addUser=()=>{
+const incrementByValue=(value)=>{
+    return{
+        type:'INCREMENTBYVALUE',
+        payload:value
+    }
+}
+
+const addUser=(value)=>{
     return{
         type:'USER',
+        payload:value
     }
 }
 
@@ -50,22 +62,41 @@ const counterReducer =(state=initialState, action)=>{
                 ...state,
              count: state.count-1,
             }
+            case 'INCREMENTBYVALUE':
+            
+                return{
+                    ...state,
+                 count: state.count+action.payload,
+                }
         default:
             state;
     }
 }
 
+const userReducer=(state=initialState, action)=>{
 
-const store = createStore(counterReducer);
+    if(action.type=='USER'){
+        return{
+            user:[...state.user, action.payload],
+            count:state.count+1
+        }
+    }
+}
+
+const store = createStore(userReducer);
 
 store.subscribe(()=>console.log(store.getState()));
 
 // dispatch action
 
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
-store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+// store.dispatch(incrementCounter())
+
+// store.dispatch(incrementByValue(5))
+store.dispatch(addUser('umma jinnatunnasa'));
+store.dispatch(addUser('sathi'));
